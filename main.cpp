@@ -38,13 +38,8 @@ void dijkstra(int source, const vector<vector<Edge>>& graph, vector<int>& dist) 
     }
 }
 
-int main() {
-    int n, m;
-    cout << "Enter the number of vertices and edges: ";
-    cin >> n >> m;
-
+vector<vector<Edge>> read_graph(int n, int m) {
     vector<vector<Edge>> graph(n);
-
     cout << "Enter the edges in the format: from to weight" << endl;
     for (int i = 0; i < m; ++i) {
         int u, v, w;
@@ -52,6 +47,22 @@ int main() {
         graph[u].push_back({v, w});
         graph[v].push_back({u, w}); // if the graph is undirected
     }
+    return graph;
+}
+
+void print_distances(int source, const vector<int>& dist) {
+    cout << "Shortest distances from vertex " << source << " to all other vertices:" << endl;
+    for (int i = 0; i < dist.size(); ++i) {
+        cout << "To vertex " << i << ": " << dist[i] << endl;
+    }
+}
+
+int main() {
+    int n, m;
+    cout << "Enter the number of vertices and edges: ";
+    cin >> n >> m;
+
+    vector<vector<Edge>> graph = read_graph(n, m);
 
     int source;
     cout << "Enter the source vertex: ";
@@ -60,10 +71,7 @@ int main() {
     vector<int> dist;
     dijkstra(source, graph, dist);
 
-    cout << "Shortest distances from vertex " << source << " to all other vertices:" << endl;
-    for (int i = 0; i < n; ++i) {
-        cout << "To vertex " << i << ": " << dist[i] << endl;
-    }
+    print_distances(source, dist);
 
     return 0;
 }
